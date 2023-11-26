@@ -2,27 +2,34 @@
   import { createDeck } from '../game';
   import type { Card } from '../game-types'
 
-  let deck:Card[] = $state(createDeck());
+  let deck:Card[] = $state([]);
   let discardDeck:Card[] = $state([]);
   let currentCard:Card | null = $state(null);
   let score = $state(0);
 
   const startGame = () => {
-    currentCard = deck.pop();    
+    deck = createDeck();
+    score = 0;
+    currentCard = deck.pop();
   }
   
   const resolveCard = (numScored = 0) => {
     score += numScored * currentCard.weight;
     discardDeck = [currentCard, ...discardDeck];
-    currentCard = deck.pop();
+    if (deck.length > 0) {
+      currentCard = deck.pop();
+    } else {
+      currentCard = null;
+    }
   }
 
 </script>
 {#if !currentCard}
   <main class="new-game">
-      <button class=".new-game" on:click = {startGame}>New Game</button>
+    <button class=".new-game" on:click = {startGame}>New Game</button>
+    <h3>Score: {score}</h3>
   </main>
-  {:else}
+{:else}
   <main class="game">
     <article class={currentCard.level}>
       <h2>{currentCard.label}</h2>
@@ -95,7 +102,7 @@
     background-color: maroon;
   }
   article.goat {
-    background-color: purple;
+    background-color: purple;``
   }
 
   article h2 {
