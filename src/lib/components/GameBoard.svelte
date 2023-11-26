@@ -121,6 +121,7 @@
     border: 4px solid darkgrey;;
     padding: 0.5rem 1rem;
     font-size: clamp(1rem, 8vw, 8rem);
+    color: black;
   }
 
   
