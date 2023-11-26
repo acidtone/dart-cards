@@ -8,10 +8,7 @@
   let score = $state(0);
 
   const startGame = () => {
-    deck = createDeck();
-    deck = deck.slice(0, 4);
-    console.log(deck);
-    
+    deck = createDeck();    
     score = 0;
     currentCard = deck.pop();
   }
