@@ -9,6 +9,9 @@
 
   const startGame = () => {
     deck = createDeck();
+    deck = deck.slice(0, 4);
+    console.log(deck);
+    
     score = 0;
     currentCard = deck.pop();
   }
@@ -18,16 +21,19 @@
     discardDeck = [currentCard, ...discardDeck];
     if (deck.length > 0) {
       currentCard = deck.pop();
-    } else {
-      currentCard = null;
     }
   }
 
 </script>
-{#if !currentCard}
+{#if !currentCard && deck.length === 0}
   <main class="new-game">
     <button class=".new-game" on:click = {startGame}>New Game</button>
     <h3>Score: {score}</h3>
+  </main>
+{:else if currentCard && deck.length === 0}
+  <main class="new-game">
+    <h3>Score: {score}</h3>
+    <p>Refresh to start another game.</p>
   </main>
 {:else}
   <main class="game">
@@ -81,7 +87,9 @@
   main.game {
     justify-content: stretch;
   }
-
+  p {
+    text-align: center;
+  }
   article {
     width: 100%;
     color: white;
