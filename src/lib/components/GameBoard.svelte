@@ -24,7 +24,9 @@
 </script>
 {#if !currentCard && deck.length === 0}
   <main class="new-game">
-    <button class=".new-game" on:click = {startGame}>New Game</button>
+    <h1>Dart Dojo</h1>
+    <p>Throw three darts for each challenge! Complete a full deck for a final score.</p>
+    <button on:click = {startGame}>New Game</button>
     <h3>Score: {score}</h3>
   </main>
 {:else if currentCard && deck.length === 0}
@@ -39,7 +41,7 @@
       <p>{currentCard.weight} {currentCard.weight > 1 ? 'Points' : 'Point'} Each</p>
     </article>
     <section>
-      <nav class={currentCard.type}>
+      <nav class={currentCard.type} >
         <!-- TODO: Move into button component -->
         {#if currentCard.type === 'boolean'}
           <button on:click={() => resolveCard(0)}>0</button>
@@ -72,20 +74,33 @@
 {/if}
 
 <style>
+
+  h1, h2, h3, h4, h5, h6 {
+    margin: .5rem 0;
+    font-family: 'Ruda', sans-serif;
+  }
   main {
     display: flex;
     flex-direction: column;
-    min-height: 100dvh;
     align-items: center;
+
+    min-height: 100dvh;
   }
   main.new-game {
     justify-content: center;
+    padding: .5rem;
   }
+
+  main.new-game button {
+    margin: .5rem 0;
+  }
+
   main.game {
     justify-content: stretch;
   }
   p {
     text-align: center;
+    margin: 0.5rem;
   }
   article {
     width: 100%;
