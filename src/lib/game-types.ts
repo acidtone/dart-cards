@@ -3,5 +3,6 @@ export type Card = {
   level: 'grey' | `green` | `yellow` | `red` | 'goat',
   type: 'boolean' | 'three' | 'nine',
   quantity: number,
-  weight: number
+  weight: number,
+  instructions: string
 }

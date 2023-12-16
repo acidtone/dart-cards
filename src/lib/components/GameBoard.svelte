@@ -7,6 +7,7 @@
   let currentCard:Card | null = $state(null);
   let totalCards:number = 0;
   let score = $state(0);
+  let modal = $state(false);
 
   const startGame = () => {
     deck = createDeck();
@@ -21,6 +22,16 @@
     if (deck.length > 0) {
       currentCard = deck.pop();
     }
+  }
+
+  const openInfo = () => {
+    modal = true;
+    console.log(modal);
+  }
+
+  const closeInfo = () => {
+    modal = false;
+    console.log(modal);
   }
 
 </script>
@@ -38,9 +49,9 @@
   </main>
 {:else}
   <main class="game">
-    <article class={currentCard.level}>
+    <article class={currentCard.level} on:click={openInfo}>
       <h2>{currentCard.label}</h2>
-      <p>{currentCard.weight} {currentCard.weight > 1 ? 'Points' : 'Point'} Each</p>
+      <p>{currentCard.weight} {currentCard.weight > 1 ? 'Points' : 'Point'} Each &#9432;</p>
     </article>
     <section>
       <nav class={currentCard.type} >
@@ -69,11 +80,14 @@
         {/if}
       </nav>
     </section>
-    <aside>
+    <aside class="score">
       <h3>Score: {score} <span class="progress">({discardDeck.length + 1}/{totalCards})</span></h3>
     </aside>
+    <aside class="info" class:hidden={!modal} on:click={closeInfo}> <p class="close">X</p>
+      <p>{currentCard.instructions}</p>
+    </aside>
   </main>
-{/if}
+  {/if}
 
 <style>
 
@@ -188,7 +202,7 @@
     aspect-ratio: 3 / 1;
   }
 
-  aside {
+  .score {
     width: 100%;
     text-align: center;
     font-size: clamp(1rem, 8vw, 8rem);
@@ -196,7 +210,31 @@
     color: white;
     padding: 0.5em;
   }
-  aside h3 {
+  .score h3 {
     margin: 0;
+  }
+
+  .info {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin: 1rem;
+    padding: 2rem 1rem;
+    transform: translateY(-50%);
+    
+    background: white;
+    border: 3px solid #555;
+    border-radius: 2rem;
+    font-size: 1.5rem;
+  }
+  .info .close {
+    position: absolute;
+    right: 1rem;
+    top: 0;
+  }
+  .hidden {
+    display: none;
   }
 </style>
