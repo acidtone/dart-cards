@@ -99,6 +99,13 @@
 
   main.new-game button {
     margin: .5rem 0;
+    font-size: clamp(1rem, 6vw, 6rem);
+    background-image: linear-gradient(hsl(270, 20%, 90%), hsl(270, 20%, 80%));
+    color: #222;
+  }
+
+  main.new-game button:active {
+    background-image: linear-gradient(hsl(270, 20%, 70%) 10%, hsl(270, 20%, 80%));
   }
 
   main.game {
@@ -144,25 +151,41 @@
   }
   
   button {
-    border: 4px solid darkgrey;;
     padding: 0.5rem 1rem;
-    font-size: clamp(1rem, 8vw, 8rem);
-    color: black;
+    font-size: clamp(1rem, 10vw, 8rem);
+    color: #444;
+    background-image: linear-gradient(hsl(90, 0%, 95%) 10%, hsl(120, 0%, 85%));
+    border: 1px solid #999;
+  }
+  
+  button:active {
+    background-image: linear-gradient(hsl(90, 0%, 70%) 10%, hsl(120, 0%, 80%));
   }
 
-  
   nav {
+    border: 0.25rem solid darkgrey;
     display: flex;
     flex-direction: column;
     min-width: 75vw;
     max-width: 1024px;
+    background-color: darkgrey;
+    gap: 0.25rem;
   }
+
+  nav.three button, nav.boolean button {
+    aspect-ratio: 3 / 1;
+  }
+
   nav.nine {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
   }
+  nav.nine button {
+    aspect-ratio: 1 / 1;
+  }
   nav.nine button.zero {
     grid-column: span 3;
+    aspect-ratio: 3 / 1;
   }
 
   aside {
