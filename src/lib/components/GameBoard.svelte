@@ -165,7 +165,7 @@
   }
   
   button {
-    padding: 0.5rem 1rem;
+    padding: 0.4rem 1rem;
     font-size: clamp(1rem, 10vw, 8rem);
     color: #444;
     background-image: linear-gradient(hsl(90, 0%, 95%) 10%, hsl(120, 0%, 85%));
@@ -180,7 +180,7 @@
     border: 0.25rem solid darkgrey;
     display: flex;
     flex-direction: column;
-    min-width: 75vw;
+    min-width: 70vw;
     max-width: 1024px;
     background-color: darkgrey;
     gap: 0.25rem;
