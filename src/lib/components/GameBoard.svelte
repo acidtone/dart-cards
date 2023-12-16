@@ -5,10 +5,12 @@
   let deck:Card[] = $state([]);
   let discardDeck:Card[] = $state([]);
   let currentCard:Card | null = $state(null);
+  let totalCards:number = 0;
   let score = $state(0);
 
   const startGame = () => {
-    deck = createDeck();    
+    deck = createDeck();
+    totalCards = deck.length;
     score = 0;
     currentCard = deck.pop();
   }
@@ -68,7 +70,7 @@
       </nav>
     </section>
     <aside>
-      <h3>Score: {score}</h3>
+      <h3>Score: {score} <span class="progress">({discardDeck.length + 1}/{totalCards})</span></h3>
     </aside>
   </main>
 {/if}
@@ -78,6 +80,10 @@
   h1, h2, h3, h4, h5, h6 {
     margin: .5rem 0;
     font-family: 'Ruda', sans-serif;
+  }
+  h3 span.progress {
+    font-weight: 400;
+    font-size: 1.25rem;
   }
   main {
     display: flex;
