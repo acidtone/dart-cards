@@ -40,7 +40,7 @@
     </article>
     <section>
       <nav class={currentCard.type}>
-    
+        <!-- TODO: Move into button component -->
         {#if currentCard.type === 'boolean'}
           <button on:click={() => resolveCard(0)}>0</button>
           <button on:click={() => resolveCard(1)}>1</button>
@@ -107,7 +107,7 @@
     background-color: maroon;
   }
   article.goat {
-    background-color: purple;``
+    background-color: purple;
   }
 
   article h2 {
