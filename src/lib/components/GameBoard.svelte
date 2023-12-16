@@ -38,7 +38,7 @@
 {#if !currentCard && deck.length === 0}
   <main class="new-game">
     <h1>Dart Dojo</h1>
-    <p>Throw three darts for each challenge! Complete a full deck for a final score.</p>
+    <p>Throw three darts for each challenge! Complete all 59 challenges for a final score.</p>
     <button on:click = {startGame}>New Game</button>
     <h3>Score: {score}</h3>
   </main>
