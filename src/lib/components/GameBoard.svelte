@@ -54,6 +54,7 @@
       <p>{currentCard.weight} {currentCard.weight > 1 ? 'Points' : 'Point'} Each &#9432;</p>
     </article>
     <section>
+      <!-- TODO: Add optional chaining instead of Option<T> because I'm lazy -->
       <nav class={currentCard.type} >
         <!-- TODO: Move into button component -->
         {#if currentCard.type === 'boolean'}
