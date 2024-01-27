@@ -5,10 +5,13 @@
   let deck:Card[] = $state([]);
   let discardDeck:Card[] = $state([]);
   let currentCard:Card | null = $state(null);
+  let totalCards:number = 0;
   let score = $state(0);
+  let modal = $state(false);
 
   const startGame = () => {
-    deck = createDeck();    
+    deck = createDeck();
+    totalCards = deck.length;
     score = 0;
     currentCard = deck.pop();
   }
@@ -21,10 +24,22 @@
     }
   }
 
+  const openInfo = () => {
+    modal = true;
+    console.log(modal);
+  }
+
+  const closeInfo = () => {
+    modal = false;
+    console.log(modal);
+  }
+
 </script>
 {#if !currentCard && deck.length === 0}
   <main class="new-game">
-    <button class=".new-game" on:click = {startGame}>New Game</button>
+    <h1>Dart Dojo</h1>
+    <p>Throw three darts for each challenge! Complete all 59 challenges for a final score.</p>
+    <button on:click = {startGame}>New Game</button>
     <h3>Score: {score}</h3>
   </main>
 {:else if currentCard && deck.length === 0}
@@ -34,13 +49,14 @@
   </main>
 {:else}
   <main class="game">
-    <article class={currentCard.level}>
+    <article class={currentCard.level} on:click={openInfo}>
       <h2>{currentCard.label}</h2>
-      <p>{currentCard.weight} {currentCard.weight > 1 ? 'Points' : 'Point'} Each</p>
+      <p>{currentCard.weight} {currentCard.weight > 1 ? 'Points' : 'Point'} Each &#9432;</p>
     </article>
     <section>
-      <nav class={currentCard.type}>
-    
+      <!-- TODO: Add optional chaining instead of Option<T> because I'm lazy -->
+      <nav class={currentCard.type} >
+        <!-- TODO: Move into button component -->
         {#if currentCard.type === 'boolean'}
           <button on:click={() => resolveCard(0)}>0</button>
           <button on:click={() => resolveCard(1)}>1</button>
@@ -65,27 +81,54 @@
         {/if}
       </nav>
     </section>
-    <aside>
-      <h3>Score: {score}</h3>
+    <aside class="score">
+      <h3>Score: {score} <span class="progress">({discardDeck.length + 1}/{totalCards})</span></h3>
+    </aside>
+    <aside class="info" class:hidden={!modal} on:click={closeInfo}> <p class="close">X</p>
+      <p>{currentCard.instructions}</p>
     </aside>
   </main>
-{/if}
+  {/if}
 
 <style>
+
+  h1, h2, h3, h4, h5, h6 {
+    margin: .5rem 0;
+    font-family: 'Ruda', sans-serif;
+  }
+  h3 span.progress {
+    font-weight: 400;
+    font-size: 1.25rem;
+  }
   main {
     display: flex;
     flex-direction: column;
-    min-height: 100dvh;
     align-items: center;
+
+    min-height: 100dvh;
   }
   main.new-game {
     justify-content: center;
+    padding: .5rem;
   }
+
+  main.new-game button {
+    margin: .5rem 0;
+    font-size: clamp(1rem, 6vw, 6rem);
+    background-image: linear-gradient(hsl(270, 20%, 90%), hsl(270, 20%, 80%));
+    color: #222;
+  }
+
+  main.new-game button:active {
+    background-image: linear-gradient(hsl(270, 20%, 70%) 10%, hsl(270, 20%, 80%));
+  }
+
   main.game {
     justify-content: stretch;
   }
   p {
     text-align: center;
+    margin: 0.5rem;
   }
   article {
     width: 100%;
@@ -107,7 +150,7 @@
     background-color: maroon;
   }
   article.goat {
-    background-color: purple;``
+    background-color: purple;
   }
 
   article h2 {
@@ -123,28 +166,44 @@
   }
   
   button {
-    border: 4px solid darkgrey;;
-    padding: 0.5rem 1rem;
-    font-size: clamp(1rem, 8vw, 8rem);
-    color: black;
+    padding: 0.4rem 1rem;
+    font-size: clamp(1rem, 10vw, 8rem);
+    color: #444;
+    background-image: linear-gradient(hsl(90, 0%, 95%) 10%, hsl(120, 0%, 85%));
+    border: 1px solid #999;
+  }
+  
+  button:active {
+    background-image: linear-gradient(hsl(90, 0%, 70%) 10%, hsl(120, 0%, 80%));
   }
 
-  
   nav {
+    border: 0.25rem solid darkgrey;
     display: flex;
     flex-direction: column;
-    min-width: 75vw;
+    min-width: 70vw;
     max-width: 1024px;
+    background-color: darkgrey;
+    gap: 0.25rem;
   }
+
+  nav.three button, nav.boolean button {
+    aspect-ratio: 3 / 1;
+  }
+
   nav.nine {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
   }
+  nav.nine button {
+    aspect-ratio: 1 / 1;
+  }
   nav.nine button.zero {
     grid-column: span 3;
+    aspect-ratio: 3 / 1;
   }
 
-  aside {
+  .score {
     width: 100%;
     text-align: center;
     font-size: clamp(1rem, 8vw, 8rem);
@@ -152,7 +211,31 @@
     color: white;
     padding: 0.5em;
   }
-  aside h3 {
+  .score h3 {
     margin: 0;
+  }
+
+  .info {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin: 1rem;
+    padding: 2rem 1rem;
+    transform: translateY(-50%);
+    
+    background: white;
+    border: 3px solid #555;
+    border-radius: 2rem;
+    font-size: 1.5rem;
+  }
+  .info .close {
+    position: absolute;
+    right: 1rem;
+    top: 0;
+  }
+  .hidden {
+    display: none;
   }
 </style>
